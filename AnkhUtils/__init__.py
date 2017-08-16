@@ -83,14 +83,14 @@ class UtilClass:
 
   # Allows you to set the settings object directly.
   def SetSettings(self, data):
-    self.Settings = data
+    self.Settings = json.loads(data)
 
   # Loads settings from a file. Pass __file__ from your script
   # to load relative to your script. Optionally override the filename
   def ReloadSettings(self, base, filename='settings.json'):
     try:
       with codecs.open(os.path.join(os.path.dirname(base), filename), encoding='utf-8-sig') as jsonData:
-        self.SetSettings(json.loads(jsonData.read()))
+        self.SetSettings(jsonData.read())
         return self.Settings
     except Exception as e:
       self.Log('[AnkhUtils] Error loading {0}: {1}'.format(filename, str(e)))
