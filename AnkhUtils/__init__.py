@@ -124,7 +124,7 @@ class UtilClass:
 
 # Parsed commands object for use in ProcessCommand method
 class CommandMatch:
-  def __init__(self, user, matched commandnames, params):
+  def __init__(self, user, matched, commandnames, params):
     self.CommandNames = commandnames
     self.MatchedCommand = matched
     self.Params = params
