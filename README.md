@@ -5,7 +5,7 @@ The purpose of this script is to add shared features to all your scripts without
 ## Getting started
 1. Copy the `AnkhUtils` directory into your `Scripts` folder, alongside all your other scripts
 
-2. When you first add the utility, you need to modify each script and add the following code
+2. When you first add the utility, you need to modify each script and add the following code to your scripts:
 
 ```python
 import os
@@ -16,7 +16,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import AnkhUtils
 ```
-3. Initialize the Util object with your script name and optionally your command name
+3. Initialize the `Utils` object with your script name and optionally your command name
 
 ```python
 Command = '!hello'
