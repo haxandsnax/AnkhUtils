@@ -47,9 +47,10 @@ def Init():
 ```
 
 ## Adding new functionality
-Use the UtilsClass as a base for adding any utilities you need. Simply define new class methods and call them in your script! You can also add other python scripts and import them to keep things organized!
+Use the UtilsClass as a base for adding any utilities you need. Simply define new class methods and call them in your script.
+You can also add other python scripts to the `AnkhUtils` directory and import them to keep things organized!
 
-`mymodule.py`
+`mymodule.py`:
 ```python
 def LogUser(Utils):
   Utils.Log('Logged user {0}', Utils.Data.User)
