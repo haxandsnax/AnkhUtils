@@ -3,7 +3,6 @@ import os
 import codecs
 import math
 
-
 #---------------------------------------
 # inject decorator inserts the Utils object so it can be
 # used directly in your Execute, Init functions etc.
@@ -20,22 +19,21 @@ def inject(util):
 #---------------------------------------
 # Call this to create the initial Utils object
 #---------------------------------------
-def setup(script, command=None):
+def setup(script, command):
   return UtilClass(script, command)
 
 #---------------------------------------
 # Add functions to this class to expand functionality
 #---------------------------------------
 class UtilClass:
-  def __init__(self, scriptname, commandname):
+  def __init__(self, scriptname, commandnames):
     self.ScriptName = scriptname
-    self.CommandName = commandname
+    if isinstance(commandnames, basestring):
+      self.CommandNames = [commandnames.lower()]
+    else:
+      self.CommandNames = map(lambda x: x.lower(), commandnames)
     self.Settings = dict()
     self.Data = None
-
-  # Sets command name if not set in __init__, used for cooldowns etc
-  def SetCommand(self, name):
-    self.CommandName = name
 
   # Called when injected into Execute, Init etc
   # Extracts Data object from parameter if it exists, such as in Execute
@@ -47,6 +45,29 @@ class UtilClass:
           self.Data = arg
       except Exception as e:
         self.Log('[AnkhUtils] Unable to set data object. Error: {0}'.format(str(e)))
+
+  def ProcessCommand(self):
+    # No data, so it's not a command
+    if self.Data is None:
+      return
+
+    if not self.Data.IsChatMessage() or self.Data.GetParamCount() == 0:
+      return
+    match = None
+    command = self.Data.GetParam(0).lower()
+
+    for name in self.CommandNames:
+      if command == name:
+        match = command
+        break
+    if not match:
+      return
+
+    params = [self.Data.GetParam(i) for i in range(1, self.Data.GetParamCount())]
+    return CommandMatch(self.Data.User, match, self.CommandNames, params)
+
+
+
 
   # Logging with string formatting. Also keeps you from having to add
   # ScriptName parameter every time
@@ -100,3 +121,12 @@ class UtilClass:
       self.Parent.SendTwitchWhisper(self.Data.User, msg) if whisper else self.Parent.SendTwitchMessage(msg)
     elif discord and self.Data.IsFromDiscord():
       self.Parent.SendDiscordDM(self.Data.User, msg) if whisper else self.Parent.SendDiscordMessage(msg)
+
+# Parsed commands object for use in ProcessCommand method
+class CommandMatch:
+  def __init__(self, user, matched commandnames, params):
+    self.CommandNames = commandnames
+    self.MatchedCommand = matched
+    self.Params = params
+    self.User = user
+    self.Target = self.Target = params[0] if len(params) > 0 else None
