@@ -3,7 +3,7 @@ Utility scripts for AnkhBot!
 The purpose of this script is to add shared features to all your scripts without having to duplicate code.
 
 ## Getting started
-1. Copy the AnkhUtils script into your `Scripts` folder, alongside all your other scripts
+1. Copy the `AnkhUtils` directory into your `Scripts` folder, alongside all your other scripts
 
 2. When you first add the utility, you need to modify each script and add the following code
 
