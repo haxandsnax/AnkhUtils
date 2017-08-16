@@ -97,6 +97,6 @@ class UtilClass:
       return
     whisper = whisper and self.Data.IsWhisper()
     if self.Data.IsFromTwitch():
-      self.Parent.SendTwitchWhisper(self.Data.User, msg) if whisper else Parent.SendTwitchMessage(msg)
+      self.Parent.SendTwitchWhisper(self.Data.User, msg) if whisper else self.Parent.SendTwitchMessage(msg)
     elif discord and self.Data.IsFromDiscord():
-      self.Parent.SendDiscordDM(self.Data.User, msg) if whisper else Parent.SendDiscordMessage(msg)
+      self.Parent.SendDiscordDM(self.Data.User, msg) if whisper else self.Parent.SendDiscordMessage(msg)
